@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        .results-table table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed; /* Ensures the table layout is fixed */
+        }
+        .results-table th, .results-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            word-wrap: break-word; /* Ensures long words break to fit the cell */
+            overflow: hidden; /* Ensures overflow content is hidden */
+        }
+        .results-table th {
+            background-color: #4CAF50;
+            color: white;
+            text-align: left;
+        }
+        .results-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .results-table tr:hover {
+            background-color: #ddd;
+        }
+        .alert {
+            color: red;
+            font-weight: bold;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contract Analysis Results</h1>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="results-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Document Section</th>
+                        <th>Analysis Summary</th>
+                        <th>Details</th>
+                        <!-- Add more headers as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ tables|safe }}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="button-group">
+            <a href="{{ url_for('download_csv') }}" class="btn">Download CSV</a>
+            <a href="/" class="btn">Upload Another</a>
+        </div>
+    </div>
+</body>
+</html>
